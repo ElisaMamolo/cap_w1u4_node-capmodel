@@ -1,7 +1,8 @@
 namespace sap.capire.bookshop;
 using { Currency, managed } from '@sap/cds/common';
 
-entity Books : managed {
+//additionalInfo aspect is added to books entity
+entity Books : managed, additionalInfo {
   key ID   : Integer;
   title    : localized String(111);
   descr    : localized String(1111);
@@ -32,4 +33,16 @@ entity OrderItems {
   //order items are books
   book     : Association to Books;
   amount   : Integer;
+}
+
+//add aspects also to another entity
+entity Movies: additionalInfo {
+    key ID: Integer;
+    name: String(111);
+
+}
+
+aspect additionalInfo {
+    genre: String(100);
+    language: String(200);
 }
