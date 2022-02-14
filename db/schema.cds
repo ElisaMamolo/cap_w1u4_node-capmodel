@@ -1,5 +1,10 @@
 namespace sap.capire.bookshop;
-using { Currency, managed } from '@sap/cds/common';
+//using common model giving absolute reference
+//so the framework is lookinginto node modules and .cds file
+using { Currency, managed, cuid } from '@sap/cds/common';
+
+//use the product entity, imported from this project
+//using {sap.capire.products.Products} from '../../products';
 
 //additionalInfo aspect is added to books entity
 entity Books : managed, additionalInfo {
@@ -21,14 +26,14 @@ entity Authors : managed {
   books    : Association to many Books on books.author = $self;
 }
 
-entity Orders : managed {
-  key ID   : UUID;
+entity Orders : managed, cuid {
+  // this is not needed as cuid is added -> key ID   : UUID;
   OrderNo  : String @title:'Order Number'; //> readable key
   //composed of many order items, an item cannot exist without an order
   Items    : Composition of many OrderItems on Items.parent = $self;
 }
-entity OrderItems {
-  key ID   : UUID;
+entity OrderItems: cuid {
+  // this is not needed as cuid is added -> key ID   : UUID;
   parent   : Association to Orders;
   //order items are books
   book     : Association to Books;
